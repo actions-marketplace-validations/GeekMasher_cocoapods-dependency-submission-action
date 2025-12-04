@@ -3,8 +3,7 @@ import json
 import logging
 import argparse
 
-from ghastoolkit.octokit.github import GitHub
-from ghastoolkit.octokit.dependencygraph import DependencyGraph
+from ghastoolkit import GitHub, DependencyGraph
 
 from cpdsa import __name__ as tool_name
 from cpdsa.cocoapods import parseLockFile, findCocoaPods
@@ -64,8 +63,10 @@ if __name__ == "__main__":
     logger.debug(f"Repository :: {GitHub.repository}")
 
     if arguments.cocoapods_lock:
+        logger.info(f"Lockfile provided :: {arguments.cocoapods_lock}")
         lock_files.append(arguments.cocoapods_lock)
     else:
+        logger.info("Lockfile not provided, searching for lockfiles")
         lock_files = findCocoaPods(".")
 
     for lockfile in lock_files:
